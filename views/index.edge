@@ -1,0 +1,52 @@
+@layout('main')
+@section('content')
+
+@if(Results !== null)
+{{ Results }}
+@endif
+
+<form class="form-horizontal" method="POST" action="/addTodo">
+  <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+  <div class="form-group">
+    <label for="todo" class="col-sm-2 control-label">Todo</label>
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="todo"
+        placeholder="Enter A Todo"
+        name="todo"
+      />
+    </div>
+  </div>
+  <button type="submit" class="btn btn-success">Create</button>
+</form>
+<table class="table table-bordered text-center">
+    <thead>
+        <th>Todo</th>
+        <th>Image</th>
+        <th>Delete</th>
+    </thead>
+    <tbody>
+        @each(todo in todos)
+          <tr>
+              <td>
+                  {{ todo.todo }}
+              </td>
+              <td>
+                <img src="/images/test" alt="">
+              </td>
+              <td>
+                <form action="/deleteTodo" method="post">
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                    <input type="hidden" name="id" value="{{ todo._id }}">
+                    <button class="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
+              </td>
+          </tr>
+        @endeach
+    </tbody>
+</table>
+@endsection
